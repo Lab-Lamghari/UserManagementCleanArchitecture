@@ -21,7 +21,7 @@ namespace UserManagement.API.Gateway
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var secret = "This is my jwt secret key";
+            var secret = "this is my jwt secre tkey";
             var key = Encoding.ASCII.GetBytes(secret);
             services.AddAuthentication(option =>
             {
