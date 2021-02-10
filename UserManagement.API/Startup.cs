@@ -61,11 +61,17 @@ namespace UserManagement.API
                     HealthCheckResult.Healthy("Service Health Check"), new[] { "Service" });
 
             services.AddSingleton<DatabaseHealthCheck>();
+
+            // The following line enables Application Insights telemetry collection.
+            services.AddApplicationInsightsTelemetry();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Add Application Insights Monitoring to the request pipline as a very first middleware.
+            // app.UseApplicationInsightsRequestTelemetry();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
