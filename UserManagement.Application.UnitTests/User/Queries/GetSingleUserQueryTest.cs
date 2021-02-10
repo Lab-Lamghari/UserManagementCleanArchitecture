@@ -47,7 +47,7 @@ namespace UserManagement.ApplicationTests.User.Queries
 
             var handler = new GetSingleUserQuery.GetSingleUserHandler(constant, mapper, unitOfWork);
             var result = await handler.Handle(query, CancellationToken.None);
-            result.UserList[0].Age.ShouldBe(21);
+            result.UserList[0].Age.ShouldBe(22);
         }
 
         [Fact]
