@@ -1,11 +1,15 @@
 using FluentValidation.AspNetCore;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using UserManagement.API.Checks;
 using UserManagement.API.Filters;
 using UserManagement.Application;
 using UserManagement.Persistence;
@@ -49,6 +53,14 @@ namespace UserManagement.API
             });
 
             services.AddLogging();
+
+            // Health Checks
+            services.AddHealthChecks()
+                .AddCheck<DatabaseHealthCheck>("Database Health Check", null, new[] { "Database", "SQL" })
+                .AddCheck("Service", () =>
+                    HealthCheckResult.Healthy("Service Health Check"), new[] { "Service" });
+
+            services.AddSingleton<DatabaseHealthCheck>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,6 +92,25 @@ namespace UserManagement.API
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/lightHealth", new HealthCheckOptions()
+                {
+                    Predicate = _ => false
+                });
+                endpoints.MapHealthChecks("/health/services", new HealthCheckOptions()
+                {
+                    Predicate = reg => reg.Tags.Contains("Service"),
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+                endpoints.MapHealthChecks("/health/database", new HealthCheckOptions()
+                {
+                    Predicate = reg => reg.Tags.Contains("Database"),
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions()
+                {
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
