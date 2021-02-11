@@ -1,3 +1,4 @@
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UserManagement.Web.Data;
+using UserManagement.Web.utilities;
 
 namespace UserManagement.Web
 {
@@ -30,7 +32,9 @@ namespace UserManagement.Web
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<UserService>();
+            
             services.AddApplicationInsightsTelemetry();
+            services.AddSingleton<ITelemetryInitializer, TelemetryInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
