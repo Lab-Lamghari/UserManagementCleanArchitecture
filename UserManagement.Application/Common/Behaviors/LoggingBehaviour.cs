@@ -19,6 +19,8 @@ namespace UserManagement.Application.Common.Behaviors
             var requestName = typeof(TRequest).Name;
             string userName = string.Empty;
 
+            _logger.LogWarning("Warning : Process");
+
             await Task.Run(() => _logger.LogInformation("UserManagement Request: {Name} {@UserName} {@Request}",
                     requestName, userName, request));
         }
