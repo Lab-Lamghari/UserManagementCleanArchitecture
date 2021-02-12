@@ -1,5 +1,6 @@
 using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using UserManagement.API.Checks;
 using UserManagement.API.Filters;
+using UserManagement.API.utilities;
 using UserManagement.Application;
 using UserManagement.Persistence;
 
@@ -61,11 +63,18 @@ namespace UserManagement.API
                     HealthCheckResult.Healthy("Service Health Check"), new[] { "Service" });
 
             services.AddSingleton<DatabaseHealthCheck>();
+
+            // The following line enables Application Insights telemetry collection.
+            services.AddApplicationInsightsTelemetry();
+            services.AddSingleton<ITelemetryInitializer, TelemetryInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Add Application Insights Monitoring to the request pipline as a very first middleware.
+            // app.UseApplicationInsightsRequestTelemetry();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

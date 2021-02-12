@@ -1,0 +1,20 @@
+﻿@page "/userdata"
+
+@using UserManagement.Web.Data
+@inject UserService userService
+
+<h1>User Service</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+<p>@data</p>
+
+
+@code {
+    private string data;
+
+    protected override async Task OnInitializedAsync()
+    {
+        data = await userService.getUserById();
+    }
+}
