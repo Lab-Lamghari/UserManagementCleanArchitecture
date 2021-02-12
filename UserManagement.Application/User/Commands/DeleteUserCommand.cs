@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Threading;
 using System.Threading.Tasks;
 using UserManagement.Application.Common.BaseClass;
@@ -13,8 +14,8 @@ namespace UserManagement.Application.User.Commands
         public int UserID { get; set; }
         public class DeleteUserHandler : ApplicationBase, IRequestHandler<DeleteUserCommand, bool>
         {
-            public DeleteUserHandler(IConfigConstants constant, IMapper mapper, IUnitOfWork unitOfWork)
-                : base(constant, unitOfWork, mapper)
+            public DeleteUserHandler(IConfigConstants constant, IMapper mapper, IUnitOfWork unitOfWork, IDistributedCache cache)
+                : base(constant, unitOfWork, mapper, cache)
             {
             }
 
