@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,8 +17,8 @@ namespace UserManagement.Application.User.Queries
         public int UserID { get; set; }
         public class GetSingleUserHandler : ApplicationBase, IRequestHandler<GetSingleUserQuery, UserVM>
         {
-            public GetSingleUserHandler(IConfigConstants constant, IMapper mapper, IUnitOfWork unitOfWork)
-                : base(constant, unitOfWork, mapper)
+            public GetSingleUserHandler(IConfigConstants constant, IMapper mapper, IUnitOfWork unitOfWork, IDistributedCache cache)
+                : base(constant, unitOfWork, mapper, cache)
             {
             }
 

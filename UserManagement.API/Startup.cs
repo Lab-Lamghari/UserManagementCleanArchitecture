@@ -61,6 +61,12 @@ namespace UserManagement.API
                     HealthCheckResult.Healthy("Service Health Check"), new[] { "Service" });
 
             services.AddSingleton<DatabaseHealthCheck>();
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetConnectionString("Redis");
+                options.InstanceName = "FullStack_";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

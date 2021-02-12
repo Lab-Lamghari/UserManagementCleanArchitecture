@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Threading;
 using System.Threading.Tasks;
 using UserManagement.Application.Common.BaseClass;
@@ -20,8 +21,8 @@ namespace UserManagement.Application.User.Commands
 
         public class UpdateUserHandler : ApplicationBase, IRequestHandler<UpdateUserCommand, bool>
         {
-            public UpdateUserHandler(IConfigConstants constant, IMapper mapper, IUnitOfWork unitOfWork)
-                : base(constant, unitOfWork, mapper)
+            public UpdateUserHandler(IConfigConstants constant, IMapper mapper, IUnitOfWork unitOfWork, IDistributedCache cache)
+                : base(constant, unitOfWork, mapper, cache)
             {
             }
 
