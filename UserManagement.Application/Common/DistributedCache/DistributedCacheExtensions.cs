@@ -32,7 +32,7 @@ namespace UserManagement.Application.Common.DistributedCache
             {
                 timer.Stop();
                 telemetryClient.InstrumentationKey = "c52736c3-79bd-4bcf-bb97-d16524cb38be";
-                telemetryClient.Context.Cloud.RoleName = "UserAPI";
+                telemetryClient.Context.Cloud.RoleName = "WebAPI";
                 telemetryClient.TrackDependency("REDIS", "RedisSetStringAsync", recordId, startTime, timer.Elapsed, true);
 
             }
@@ -56,7 +56,7 @@ namespace UserManagement.Application.Common.DistributedCache
             {
                 timer.Stop();
                 telemetryClient.InstrumentationKey = "c52736c3-79bd-4bcf-bb97-d16524cb38be";
-                telemetryClient.Context.Cloud.RoleName = "UserAPI";
+                telemetryClient.Context.Cloud.RoleName = "WebAPI";
                 telemetryClient.TrackDependency("REDIS", "RedisGetStringAsync", recordId + " : " + jsonData, startTime, timer.Elapsed, true);
             }           
 

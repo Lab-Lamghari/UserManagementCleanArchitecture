@@ -1,7 +1,7 @@
 ﻿using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.Extensibility;
 
-namespace UserManagement.API.utilities
+namespace UserManagement.Auth.Utilities
 {
     public class TelemetryInitializer : ITelemetryInitializer
     {
@@ -10,7 +10,7 @@ namespace UserManagement.API.utilities
             if (string.IsNullOrEmpty(telemetry.Context.Cloud.RoleName))
             {
                 //set custom role name here
-                telemetry.Context.Cloud.RoleName = "WebAPI";                
+                telemetry.Context.Cloud.RoleName = "Authentication";
             }
         }
     }

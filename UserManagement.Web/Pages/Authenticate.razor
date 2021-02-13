@@ -1,0 +1,34 @@
+﻿@page "/Authenticate"
+
+@using UserManagement.Web.Data
+@inject AuthService authService
+
+<h1>Authenticate</h1>
+
+<div>
+    <label>username : user01</label>
+    <input type="text" id="username" @bind="@username" />
+    <label>password : pass01</label>
+    <input type="text" id="password" @bind="@password" />
+
+    <button class="btn btn-primary" @onclick="getToken">Get Token</button>
+</div>
+<div>
+    <p>Token :</p>
+    <p>@token</p>
+</div>
+
+
+@code {
+    string username = "user01";
+    string password = "pass01";
+    string token = "";
+
+    private async Task getToken()
+    {        
+
+        token = await authService.Authenticate(username, password);
+    }
+
+
+}

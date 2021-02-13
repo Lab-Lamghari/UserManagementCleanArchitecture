@@ -1,3 +1,4 @@
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Auth.Manager;
+using UserManagement.Auth.Utilities;
 
 namespace UserManagement.Auth
 {
@@ -48,6 +50,8 @@ namespace UserManagement.Auth
                 };
             });
             services.AddSingleton<IJwtAuthenticationManager>(new JwtAuthenticationManager(key));
+            services.AddApplicationInsightsTelemetry();
+            services.AddSingleton<ITelemetryInitializer, TelemetryInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
