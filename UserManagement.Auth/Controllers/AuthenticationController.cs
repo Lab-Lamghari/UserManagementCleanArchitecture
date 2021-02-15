@@ -20,6 +20,8 @@ namespace UserManagement.Auth.Controllers
         {
             this.JwtAuthenticationManager = JwtAuthenticationManager;
         }
+        
+        [AllowAnonymous]
         public string Get()
         {
             return "Hello!";
