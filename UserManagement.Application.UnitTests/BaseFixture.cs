@@ -10,8 +10,7 @@ namespace UserManagement.ApplicationTests
     {
         public IMapper Mapper { get; }
         public ILogger Logger { get; }
-        public IDbConnection DBConnection { get; }
-        public IDistributedCache Cache { get; }
+        public IDbConnection DBConnection { get; }        
 
         public BaseFixture()
         {
