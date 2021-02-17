@@ -29,11 +29,11 @@ namespace UserManagement.Auth.Manager
             await this._container.DeleteItemAsync<UserModel>(id, new PartitionKey(id));
         }
 
-        public async Task<UserModel> GetItemAsync(string id)
+        public async Task<UserModel> GetItemAsync(string UserName)
         {
             try
             {
-                ItemResponse<UserModel> response = await this._container.ReadItemAsync<UserModel>(id, new PartitionKey(id));
+                ItemResponse<UserModel> response = await this._container.ReadItemAsync<UserModel>(UserName, new PartitionKey(UserName));
                 return response.Resource;
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)

@@ -6,23 +6,31 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using UserManagement.Auth.Models;
 
 namespace UserManagement.Auth.Manager
 {
     public class JwtAuthenticationManager : IJwtAuthenticationManager
     {
+        private readonly ICosmosDbService _cosmosDbService;
+
         private readonly Dictionary<string, string> users = new Dictionary<string, string>
             {{"user01","pass01"},{"user02","pass02"}};
         
         private readonly string key;
 
-        public JwtAuthenticationManager(string key)
+        public JwtAuthenticationManager(string key, ICosmosDbService cosmosDbService)
         {
             this.key = key;
+            _cosmosDbService = cosmosDbService;
+
         }
-        public string Authenticate(string username, string password)
+        public async Task<string> Authenticate(string username, string password)
         {
-            if (!users.Any(x => x.Key == username && x.Value == password))
+
+            var items = await _cosmosDbService.GetItemsAsync("SELECT * FROM c where c.UserName = '" + username + "'");
+
+            if (!items.Any(x => x.UserName == username && x.PasswordHash == password))
             {
                 return null;
             }

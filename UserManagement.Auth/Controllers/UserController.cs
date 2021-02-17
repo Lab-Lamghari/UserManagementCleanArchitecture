@@ -47,14 +47,14 @@ namespace UserManagement.Auth.Controllers
         }
 
         [HttpGet("GetUser")]
-        public async Task<IActionResult> GetUserById(string id)
+        public async Task<IActionResult> GetUserByUserName(string UserName)
         {
-            if (id == null)
+            if (UserName == null)
             {
                 return BadRequest();
             }
 
-            UserModel item = await _cosmosDbService.GetItemAsync(id);
+            UserModel item = await _cosmosDbService.GetItemAsync(UserName);
 
             if (item == null)
             {

@@ -33,6 +33,7 @@ namespace UserManagement.Auth
             services.AddControllers();
             var key = "this is my jwt secre tkey";
 
+
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -49,7 +50,7 @@ namespace UserManagement.Auth
                     ValidateAudience = false
                 };
             });
-            services.AddSingleton<IJwtAuthenticationManager>(new JwtAuthenticationManager(key));
+            services.AddSingleton<IJwtAuthenticationManager>(new JwtAuthenticationManager(key, InitializeCosmosClientInstanceAsync(Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult()));
 
             services.AddControllersWithViews();
             services.AddSingleton<ICosmosDbService>(InitializeCosmosClientInstanceAsync(Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
