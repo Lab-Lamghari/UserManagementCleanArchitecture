@@ -20,6 +20,8 @@ namespace UserManagement.Auth.Controllers
         {
             this.JwtAuthenticationManager = JwtAuthenticationManager;
         }
+        
+        [AllowAnonymous]
         public string Get()
         {
             return "Hello!";
@@ -27,9 +29,9 @@ namespace UserManagement.Auth.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody] UserCredentials userCred)
+        public async Task<IActionResult> Authenticate([FromBody] UserCredentials userCred)
         {
-            var result = JwtAuthenticationManager.Authenticate(userCred.username, userCred.password);
+            var result = await JwtAuthenticationManager.Authenticate(userCred.username, userCred.password);
             if (string.IsNullOrEmpty(result))
                 return Unauthorized();
             return Ok(result);

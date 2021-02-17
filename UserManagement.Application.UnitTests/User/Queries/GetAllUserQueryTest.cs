@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Shouldly;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace UserManagement.ApplicationTests.User.Queries
         private readonly IMapper mapper;
         private readonly ILogger logger;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IDistributedCache cache;
 
         public GetAllUserQueryTest(UserFixture userFixture)
         {
@@ -26,13 +28,14 @@ namespace UserManagement.ApplicationTests.User.Queries
             mapper = userFixture.Mapper;
             logger = userFixture.Logger;
             unitOfWork = userFixture.UnitOfWork;
+            cache = userFixture.Cache;
         }
 
         [Fact]
         public async Task Handle_ReturnsCorrectVM()
         {
             var query = new GetAllUserQuery();
-            var handler = new GetAllUserQuery.GetAllUserHandler(constant, mapper, unitOfWork);
+            var handler = new GetAllUserQuery.GetAllUserHandler(constant, mapper, unitOfWork, cache);
             var result = await handler.Handle(query, CancellationToken.None);
             result.ShouldBeOfType<UserVM>();
         }
@@ -41,7 +44,7 @@ namespace UserManagement.ApplicationTests.User.Queries
         public async Task Handle_ReturnTwoRecords_WhenRun()
         {
             var query = new GetAllUserQuery();
-            var handler = new GetAllUserQuery.GetAllUserHandler(constant, mapper, unitOfWork);
+            var handler = new GetAllUserQuery.GetAllUserHandler(constant, mapper, unitOfWork, cache);
             var result = await handler.Handle(query, CancellationToken.None);
             result.UserList.Count().ShouldBe(2);
         }

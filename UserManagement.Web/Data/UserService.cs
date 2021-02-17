@@ -17,7 +17,7 @@ namespace UserManagement.Web.Data
             _logger = logger;
         }
 
-        public async Task<string> getUserById()
+        public async Task<string> getUserById(string token)
         {
             _logger.LogDebug("Web App : Get User By Id.");
 
@@ -27,10 +27,11 @@ namespace UserManagement.Web.Data
                 using (var client = new HttpClient())
                 {
                     //Passing service base url  
-                    client.BaseAddress = new Uri("http://localhost:9320/");
+                    client.BaseAddress = new Uri("http://localhost:23814/");
 
                     client.DefaultRequestHeaders.Clear();
                     //Define request data format  
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                     //Sending request to find web api REST service resource GetAllEmployees using HttpClient  

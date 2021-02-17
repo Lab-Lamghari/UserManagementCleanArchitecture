@@ -7,14 +7,24 @@
 
 <p>This component demonstrates fetching data from a service.</p>
 
+<div>
+    <label>Token</label>
+    <input type="text" @bind="@token" />
+
+    <button class="btn btn-primary" @onclick="getData">Get Data</button>
+</div>
+
+
 <p>@data</p>
 
 
 @code {
     private string data;
+    string token = "";
 
-    protected override async Task OnInitializedAsync()
+    private async Task getData()
     {
-        data = await userService.getUserById();
+
+        data = await userService.getUserById(token);
     }
 }

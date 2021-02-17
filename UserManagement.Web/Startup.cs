@@ -32,7 +32,8 @@ namespace UserManagement.Web
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<UserService>();
-            
+            services.AddSingleton<AuthService>();
+
             services.AddApplicationInsightsTelemetry();
             services.AddSingleton<ITelemetryInitializer, TelemetryInitializer>();
         }

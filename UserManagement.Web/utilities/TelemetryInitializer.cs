@@ -10,7 +10,7 @@ namespace UserManagement.Web.utilities
             if (string.IsNullOrEmpty(telemetry.Context.Cloud.RoleName))
             {
                 //set custom role name here
-                telemetry.Context.Cloud.RoleName = "UserWebApp";
+                telemetry.Context.Cloud.RoleName = "WebApplication";
             }
         }
     }

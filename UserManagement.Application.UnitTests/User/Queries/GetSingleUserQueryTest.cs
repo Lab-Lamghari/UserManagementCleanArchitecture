@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Caching.Distributed;
 using Shouldly;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,12 +17,14 @@ namespace UserManagement.ApplicationTests.User.Queries
         private readonly IConfigConstants constant;
         private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IDistributedCache cache;
 
         public GetSingleUserQueryTest(UserFixture userFixture)
         {
             constant = userFixture.Constant;
             mapper = userFixture.Mapper;
             unitOfWork = userFixture.UnitOfWork;
+            cache = userFixture.Cache;
         }
 
         [Fact]
@@ -32,7 +35,7 @@ namespace UserManagement.ApplicationTests.User.Queries
                 UserID = 110,
             };
 
-            var handler = new GetSingleUserQuery.GetSingleUserHandler(constant, mapper, unitOfWork);
+            var handler = new GetSingleUserQuery.GetSingleUserHandler(constant, mapper, unitOfWork, cache);
             var result = await handler.Handle(query, CancellationToken.None);
             result.ShouldBeOfType<UserVM>();
         }
@@ -45,7 +48,7 @@ namespace UserManagement.ApplicationTests.User.Queries
                 UserID = 110,
             };
 
-            var handler = new GetSingleUserQuery.GetSingleUserHandler(constant, mapper, unitOfWork);
+            var handler = new GetSingleUserQuery.GetSingleUserHandler(constant, mapper, unitOfWork, cache);
             var result = await handler.Handle(query, CancellationToken.None);
             result.UserList[0].Age.ShouldBe(22);
         }
@@ -58,7 +61,7 @@ namespace UserManagement.ApplicationTests.User.Queries
                 UserID = 100,
             };
 
-            var handler = new GetSingleUserQuery.GetSingleUserHandler(constant, mapper, unitOfWork);
+            var handler = new GetSingleUserQuery.GetSingleUserHandler(constant, mapper, unitOfWork, cache);
             var result = await handler.Handle(query, CancellationToken.None);
             result.UserList[0].Salutation.ShouldContain("Sir");
         }

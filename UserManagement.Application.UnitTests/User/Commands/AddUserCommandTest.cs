@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Caching.Distributed;
 using Shouldly;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace UserManagement.ApplicationTests.User.Commands
         private readonly IConfigConstants constant;
         private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IDistributedCache cache;
 
         public AddUserCommandTest(UserFixture userFixture)
         {
@@ -40,7 +42,7 @@ namespace UserManagement.ApplicationTests.User.Commands
                 PhoneNumber = "444-443-4444",
             };
 
-            var handler = new AddUserCommand.AddNewUserHandler(constant, mapper, unitOfWork);
+            var handler = new AddUserCommand.AddNewUserHandler(constant, mapper, unitOfWork, cache);
             var result = await handler.Handle(command, CancellationToken.None);
             result.ShouldBeOfType<int>();
         }
@@ -62,7 +64,7 @@ namespace UserManagement.ApplicationTests.User.Commands
                 PhoneNumber = "444-443-4444",
             };
 
-            var handler = new AddUserCommand.AddNewUserHandler(constant, mapper, unitOfWork);
+            var handler = new AddUserCommand.AddNewUserHandler(constant, mapper, unitOfWork, cache);
             var result = await handler.Handle(command, CancellationToken.None);
             result.ShouldBe(100);
         }

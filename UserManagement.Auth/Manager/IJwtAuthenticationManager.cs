@@ -7,6 +7,6 @@ namespace UserManagement.Auth.Manager
 {
     public interface IJwtAuthenticationManager
     {
-        string Authenticate(string username, string password);
+        Task<string> Authenticate(string username, string password);
     }
 }

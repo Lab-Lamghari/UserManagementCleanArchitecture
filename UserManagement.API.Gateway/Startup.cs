@@ -1,3 +1,4 @@
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserManagement.API.Gateway.utilities;
 
 namespace UserManagement.API.Gateway
 {
@@ -40,6 +42,8 @@ namespace UserManagement.API.Gateway
                 };
             });
             services.AddOcelot();
+            services.AddApplicationInsightsTelemetry();
+            services.AddSingleton<ITelemetryInitializer, TelemetryInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

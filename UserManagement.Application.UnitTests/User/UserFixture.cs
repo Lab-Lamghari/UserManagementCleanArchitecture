@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using Moq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace UserManagement.ApplicationTests.User
     {
         public IConfigConstants Constant { get; }
         public IUnitOfWork UnitOfWork { get; }
+        public IDistributedCache Cache { get; }
 
         public UserFixture()
         {
@@ -31,13 +33,17 @@ namespace UserManagement.ApplicationTests.User
 
             var mockUserRepo = new Mock<IUserRepository>();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockCache = new Mock<IDistributedCache>();
+
             MockAddUser(mockUserRepo);
             MockUpdateUser(mockUserRepo);
             MockDeleteUser(mockUserRepo);
             MockGetAllUser(mockUserRepo);
             MockGetUser(mockUserRepo);
+
             mockUnitOfWork.SetupGet(repo => repo.Users).Returns(mockUserRepo.Object);
             UnitOfWork = mockUnitOfWork.Object;
+            Cache = mockCache.Object;
         }
 
         private Mock<IUserRepository> MockAddUser(Mock<IUserRepository> mockRepo)
@@ -108,6 +114,7 @@ namespace UserManagement.ApplicationTests.User
                 }
             };
         }
+
         [CollectionDefinition("UserCollection")]
         public class QueryCollection : ICollectionFixture<UserFixture>
         {
