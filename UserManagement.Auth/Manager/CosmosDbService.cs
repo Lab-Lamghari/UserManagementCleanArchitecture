@@ -21,7 +21,16 @@ namespace UserManagement.Auth.Manager
 
         public async Task AddItemAsync(UserModel item)
         {
-            await this._container.CreateItemAsync<UserModel>(item, new PartitionKey(item.Id));
+            try
+            {
+                await this._container.CreateItemAsync<UserModel>(item, new PartitionKey(item.UserName));
+
+            }
+            catch (Exception ex)
+            {
+
+                var res = ex.Message;
+            }        
         }
 
         public async Task DeleteItemAsync(string id)

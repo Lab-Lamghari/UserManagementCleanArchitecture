@@ -29,7 +29,8 @@ namespace UserManagement.Auth.Controllers
             var result = await _cosmosDbService.GetItemsAsync("SELECT * FROM c");
             return Ok(result.ToList());
         }
-        
+
+        [AllowAnonymous]
         [HttpPost("Register")]
         public async Task<IActionResult> CreateAsync([FromBody] UserModel item)
         {
@@ -43,7 +44,7 @@ namespace UserManagement.Auth.Controllers
         public async Task<IActionResult> EditAsync([FromBody] UserModel item)
         {
             await _cosmosDbService.UpdateItemAsync(item.Id, item);
-            return Ok();
+            return Ok("Success!");
         }
 
         [HttpGet("GetUser")]
