@@ -1,0 +1,59 @@
+﻿@page "/Register"
+
+@using UserManagement.Web.Data
+@inject AuthService authService
+
+<h1>Authenticate</h1>
+
+<div>
+    <label>UserName </label>
+    <input type="text" id="username" @bind="@username" />
+
+    <label>Password </label>
+    <input type="text" id="password" @bind="@password" />
+
+    <label>FirstName </label>
+    <input type="text" id="firstName" @bind="@firstName" />
+
+    <label>LastName </label>
+    <input type="text" id="lastName" @bind="@lastName" />
+
+    <label>Email</label>
+    <input type="text" id="email" @bind="@email" />
+
+    <label>PhoneNumber</label>
+    <input type="text" id="phoneNumber" @bind="@phoneNumber" />
+
+
+    <button class="btn btn-primary" @onclick="register">Register</button>
+</div>
+<div>
+    <p>@result</p>
+</div>
+
+
+@code {
+
+    string username = "";
+    string password = "";
+    string userName = "";
+    string firstName = "";
+    string lastName = "";
+    string email = "";
+    string phoneNumber = "";
+    string status = "";
+
+
+    string result = "";
+
+    private async Task register()
+    {
+        result = "Processing ...";
+
+        var resp = await authService.Register(username, password, firstName, lastName, email, phoneNumber, status);
+
+        result = "Success!";
+    }
+
+
+}
